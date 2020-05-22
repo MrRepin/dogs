@@ -7,6 +7,7 @@
         :name='item.name'
         :img='item.img'
         :id='item.id'
+        :icon='item.icon'
       />
     </div>
     <Alert

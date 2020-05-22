@@ -29,14 +29,28 @@ const BreedList = {
         }
         const response = await axios.all(axiosAll())
         const breedsListToCommit = state.randomBreedsList
+        const regId = new RegExp(/\w+.jpg/, 'g')
         for (const breed of breedsNames) {
           for (const image of response) {
-            const reg = new RegExp(breed, 'gi')
-            if (image.data.message.match(reg)) {
+            const regBreed = new RegExp(breed, 'gi')
+            if (image.data.message.match(regBreed)) {
               breedsListToCommit.push({
                 name: breed,
-                img: image.data.message
+                img: image.data.message,
+                id: image.data.message.match(regId)[0]
               })
+            }
+          }
+        }
+        const favoriteList = JSON.parse(localStorage.getItem('favorite'))
+        if (favoriteList) {
+          for (const breed of breedsListToCommit) {
+            for (const favorite of favoriteList) {
+              if (breed.name !== favorite.name) {
+                breed.icon = false
+                continue
+              }
+              breed.icon = true
             }
           }
         }
@@ -72,7 +86,11 @@ const BreedList = {
     },
     preloaderStatusGetter: state => state.preloaderStatus,
     navigationGetter: state => {
-      const breeds = Object.keys(state.breedsList)
+      const breedsListState = state.breedsList
+      for (const breed of Object.keys(breedsListState)) {
+        if (breedsListState[breed].length <= 0) delete breedsListState[breed]
+      }
+      const breeds = Object.keys(breedsListState)
       const navigation = breeds.map(item => {
         return {
           letter: item[0],

@@ -14,7 +14,8 @@ const Favorite = {
       }
       favoriteList.push({
         ...data,
-        id: data.img.match(reg)[0]
+        id: data.img.match(reg)[0],
+        icon: true
       })
       localStorage.setItem('favorite', JSON.stringify(favoriteList))
       dispatch('getFavoriteList')
@@ -27,7 +28,7 @@ const Favorite = {
       const favoriteList = localStorage.getItem('favorite')
       const favoriteListParse = JSON.parse(favoriteList)
       for (const [index, item] of favoriteListParse.entries()) {
-        if (data.id === item.id) favoriteListParse.splice(index, 1)
+        if (data.name === item.name) favoriteListParse.splice(index, 1)
       }
       localStorage.setItem('favorite', JSON.stringify(favoriteListParse))
       dispatch('getFavoriteList')

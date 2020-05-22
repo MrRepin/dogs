@@ -3,7 +3,7 @@
     <div class="defaultCardIns">
       <div class="img" :style='`background-image: url("${img}");`'></div>
       <div class="gradient">
-        <SolidHeart v-if='id' :func='removeFavoriteListItemClick' />
+        <SolidHeart v-if='icon === true || stateIcon === true' :func='removeFavoriteListItemClick' />
         <RegularHeart v-else :func='addFavoriteListItemClick' />
         <div class="name">
           {{name}}
@@ -21,10 +21,14 @@ import SolidHeart from '@/components/UI/Icons/SolidHeart'
 
 export default {
   name: 'DefaultCard',
+  data: () => ({
+    stateIcon: false
+  }),
   props: {
     name: String,
     img: String,
-    id: String
+    id: String,
+    icon: Boolean
   },
   methods: {
     ...mapActions([
@@ -36,11 +40,14 @@ export default {
         name: this.name,
         img: this.img
       })
+      this.stateIcon = true
     },
     removeFavoriteListItemClick () {
       this.removeFavoriteListItem({
-        id: this.id
+        id: this.id,
+        name: this.name
       })
+      this.stateIcon = false
     }
   },
   components: {

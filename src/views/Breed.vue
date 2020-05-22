@@ -3,7 +3,9 @@
     <div class="container">
       <Navigation :showClose='showClose' />
     </div>
-    <CardList :list='breedImagesListGetter' />
+    <div class="container">
+      <CardList :list='breedImagesListGetter' />
+    </div>
   </div>
 </template>
 
@@ -44,3 +46,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.breed {
+  padding-bottom: 80px;
+}
+</style>
